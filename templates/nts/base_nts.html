@@ -1,0 +1,115 @@
+{% extends 'new_base.html' %}
+
+{% block head_extra %}
+
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- loaded elsewhere
+    <link type="text/css" rel="stylesheet" href="./css/bootstrap.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/bootstrap-responsive.css"/>
+    <script type"text/JavaScript" src="./js/jquery-1.10.1.min.js"></script>
+    -->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nts/css/styles.css?{% now "U" %}" media="all" />  
+
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/prototype.js"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/model.js"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/view.js"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/control.js"></script>
+
+    {% for nn in nts_concepts %}
+        <script type"text/JavaScript" src="{{ STATIC_URL }}mts/js/nts/{{nn}}"></script>
+    {% endfor %}
+
+    <script type="text/javascript">
+
+        jQuery(window).bind('beforeunload', function(){ 
+            return 'NTS will have to start over if you leave and come back!';
+        });
+
+        jQuery(document).ready(function () {
+            init_nts({{nts_concepts|safe}});
+        });
+
+
+    </script>
+
+{% endblock %}
+
+{% block title %}NTS - {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <h1>NAME THAT SCENARIO</h1>
+
+        <!--begin setup container -->
+        <div class="well well-large" id="setup-container">
+            <p>
+                To practice recognizing when to apply concepts you will be presented with "real world scenarios" and asked to identify which concept best applies.
+            </p>
+            <h4>To Start:</h4>
+            <ol>
+                <li>Select at least two of the concepts from this list below.</li>
+                <li>Then click the "Begin" button.</li>
+            </ol>
+            <hr/>
+            <div class="row scenario-container">
+                <div class="span5" id="options-container-left">
+                </div>
+                <div class="span5" id="options-container-right">
+                </div>
+            </div>
+            <hr/>
+            <div class="workflow-buttons">
+                <button type="button" class="btn btn-success" id="begin-btn" onclick="begin();">Begin</button><br/>
+                <button type="button" class="btn" onclick="clear_selection();">Clear Selections</button>
+            </div>
+        </div>
+        <!--end setup container -->
+
+        <!--begin question container -->
+        <div class="well well-large" id="question-container">
+            <div class="row">
+
+
+                <div class="span5">
+                    <h3 id="left-score" class=""></h3>
+                </div>
+
+                <div class="span6">
+                    <div id="right-score-container" class="pull-right">
+                        <h3 id="right-score-header">
+                            <div id="right-score-value" class="pull-right">
+                            </div>
+                        </h3>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <p id='question-text-container'>
+            </p>
+            <hr/>
+            <div class="row scenario-container">
+                <div class="span5" id="ans-container-left">
+                </div>  
+                <div class="span5" id="ans-container-right">
+                </div>
+            </div>
+            <hr/>
+            <div class="workflow-buttons">
+                <div id="feedback-container" class="alert">
+            </div>
+                <button type="button" id="continue-btn"   class="btn btn-success" onclick="continue_next_question();">Continue</button><br/>
+                <button type="button" id="submit-ans-btn" class="btn btn-success disabled" onclick="submit_answer();">Submit Answer</button><br/>
+            </div>
+        </div>
+        <!--end question container -->
+
+    </div>
+
+
+{% endblock %}
