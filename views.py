@@ -16,6 +16,7 @@ def nts_view(request):
     return render(request, 'nts/base_nts.html', {
         "main_nav": main_nav(request.user, 'student_linkback'),
         "nts_concepts": scenario_files,
+        "log_url": reverse('mylogger:what_log')
     })
 
 

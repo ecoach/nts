@@ -4,6 +4,11 @@ var nts_model;
 var setup_view;
 var question_view;
 
+function event_log(what)
+{
+    ecoach.util.logEvent(what);
+}
+
 function init_nts(concepts)
 {
     cc = Array();
@@ -23,6 +28,7 @@ function init_nts(concepts)
     question_view.hide();
 
     // log entry (time)
+    event_log("{'nts': {'action':'load'}}");
 }
 
 function select_scenario(scenario_id)      
@@ -51,7 +57,7 @@ function begin()
     question_view.present_question();
 
     // log entry (choices)
-
+    event_log("{'nts': {'action':'begin'}, {'data': {'selections':['"+selections.join("','")+"']}}}");
 }
 
 function select_answer(scenario_id)         
@@ -68,11 +74,13 @@ function submit_answer()
 
     // update model
     nts_model.set_response(resp);
+    // log entry (question, choices, selected, correct)
+    question = nts_model.get_question();
+    event_log("{'nts': {'action':'answer'}, {'data': {'correct': '"+question.resp_correct()+"', 'answer':'"+question.scenario+"', 'choice':'"+resp+"', 'question': '"+nts_model.current_question.question+"'}}}");
+    
 
     // update views
     question_view.present_scored();
-
-    // log entry (question, choices, selected, correct)
 
 }
 
@@ -91,11 +99,12 @@ function continue_next_question()
     }
 
     // log entry (time reading feedback)
-
+    event_log("{'nts': {'action':'continue-next-question'}}");
 }
 
 function game_finish()                                      
 {   
     alert("That's it!");    
+    event_log("{'nts': {'action':'game-finished'}}");
 }
 
