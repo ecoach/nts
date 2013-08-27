@@ -115,9 +115,9 @@ ModelQuestion.prototype = {
 	resp_correct: function()
 	{
 		if(this.response==this.scenario)
-            return true;
+            return 1;
 		else
-            return false;
+            return 0;
 	},
 
 	
