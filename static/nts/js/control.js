@@ -4,9 +4,9 @@ var nts_model;
 var setup_view;
 var question_view;
 
-function event_log(what)
+function event_log(elog, json)
 {
-    ecoach.util.logEvent(what);
+    ecoach.util.logEvent(false, elog, json); // pageview is always false
 }
 
 function init_nts(concepts)
@@ -28,7 +28,11 @@ function init_nts(concepts)
     question_view.hide();
 
     // log entry (time)
-    event_log("{'nts': {'action':'load'}}");
+    var elog = {
+        'eventCategory': 'nts',
+        'eventAction': 'initialize'
+    };
+    event_log(elog);
 }
 
 function select_scenario(scenario_id)      
@@ -57,7 +61,14 @@ function begin()
     question_view.present_question();
 
     // log entry (choices)
-    event_log("{'nts': {'action':'begin'}, {'data': {'selections':['"+selections.join("','")+"']}}}");
+    json = "{'selections':['"+selections.join("','")+"']}"
+    var elog = {
+        'eventCategory': 'nts',
+        'eventAction': 'load',
+        'eventLabel': 'number_of_scenarios',
+        'eventValue': selections.length
+    };
+    event_log(elog, json);
 }
 
 function select_answer(scenario_id)         
@@ -74,10 +85,17 @@ function submit_answer()
 
     // update model
     nts_model.set_response(resp);
-    // log entry (question, choices, selected, correct)
+    // log entry for answer
     question = nts_model.get_question();
-    event_log("{'nts': {'action':'answer'}, {'data': {'correct': '"+question.resp_correct()+"', 'answer':'"+question.scenario+"', 'choice':'"+resp+"', 'question': '"+nts_model.current_question.question+"'}}}");
-    
+    correct = question.resp_correct();
+    json = "{'correct': '"+correct+"', 'answer':'"+question.scenario+"', 'choice':'"+resp+"', 'question': '"+nts_model.current_question.question+"'}";
+    var elog = {
+        'eventCategory': 'nts',
+        'eventAction': 'answer',
+        'eventLabel': 'correct',
+        'eventValue': correct
+    };
+    event_log(elog, json);
 
     // update views
     question_view.present_scored();
@@ -99,12 +117,20 @@ function continue_next_question()
     }
 
     // log entry (time reading feedback)
-    event_log("{'nts': {'action':'continue-next-question'}}");
+    var elog = {
+        'eventCategory': 'nts',
+        'eventAction': 'continue-next-question'
+    };
+    event_log(elog);
 }
 
 function game_finish()                                      
 {   
+    var elog = {
+        'eventCategory': 'nts',
+        'eventAction': 'game-finished'
+    };
+    event_log(elog);
     alert("That's it!");    
-    event_log("{'nts': {'action':'game-finished'}}");
 }
 
