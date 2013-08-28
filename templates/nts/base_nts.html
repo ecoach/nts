@@ -10,12 +10,12 @@
     <link type="text/css" rel="stylesheet" href="./css/bootstrap-responsive.css"/>
     <script type"text/JavaScript" src="./js/jquery-1.10.1.min.js"></script>
     -->
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nts/css/styles.css?{% now "U" %}" media="all" />  
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}nts/css/styles.css?{% now "U" %}" media="all" />
 
-    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/prototype.js"></script>
-    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/model.js"></script>
-    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/view.js"></script>
-    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/control.js"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/prototype.js?{% now "U" %}"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/model.js?{% now "U" %}"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/view.js?{% now "U" %}"></script>
+    <script type"text/JavaScript" src="{{ STATIC_URL }}nts/js/control.js?{% now "U" %}"></script>
 
     {% for nn in nts_concepts %}
         <script type"text/JavaScript" src="{{ STATIC_URL }}mts/js/nts/{{nn}}"></script>
