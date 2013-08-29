@@ -6,7 +6,7 @@ var question_view;
 
 function event_log(elog, json)
 {
-    ecoach.util.logEvent(false, elog, json); // pageview is always false
+    logger.logEvent(false, elog, json); // pageview is always false
 }
 
 function init_nts(concepts)
