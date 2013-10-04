@@ -43,6 +43,8 @@ ModelNts.prototype={
       			this.remaining.push(qN);
       		}
     	}
+        // only use 10 per quiz
+        this.remaining = this.remaining.slice(0,10) 
     	this.total=this.remaining.length;
 
     	// shuffle
