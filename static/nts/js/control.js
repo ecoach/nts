@@ -131,6 +131,6 @@ function game_finish()
         'eventAction': 'game-finished'
     };
     event_log(elog);
-    alert("That's it!");    
+    alert("That's it! Refresh the page and start over when you're ready for another NTS quiz.");    
 }
 
