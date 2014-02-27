@@ -120,7 +120,7 @@ ViewQuestion.prototype={
         {
             this.feedback.addClass('alert-error');
             this.feedback.removeClass('alert-success');
-            msg = "Woops! The answer is '" + question.scenario + "'. ";
+            msg = "Whoops! The answer is '" + question.scenario + "'. ";
             
         }
         this.feedback.html(msg + question.feedback);
