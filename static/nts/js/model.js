@@ -29,8 +29,34 @@ ModelNts.prototype={
             for(var kk=0; kk<selected.length; kk++)
             {
                 if(selected[kk] == this.scenarios[ss].name)
+                {
                     keeps.push(this.scenarios[ss]);
+                }
             }
+        }
+        // begin pruning to ensure even distribution of choices
+        var max = 0;
+        var qlist;
+		for(var kk=0; kk<keeps.length; kk++)
+        {
+            qlist = keeps[kk].questions
+            //console.log(qlist.length) // DEBUGGING - display bias
+            if (max < qlist.length)
+            {
+                max = qlist.length
+            }
+        }
+        // safety since slice deals 
+        var end_index = max - 1;
+        if(end_index < 0) 
+            end_index = 0
+        // finish pruning each shuffled question list
+        var shuffled_list;
+        var pruned = Array(); 
+		for(var kk=0; kk<keeps.length; kk++)
+        {
+            // shuffle each before pruning
+            keeps[kk].questions = this.do_shuffle(keeps[kk].questions).slice(0,end_index);
         }
         // create question list
         this.remaining = Array();
@@ -43,22 +69,27 @@ ModelNts.prototype={
       			this.remaining.push(qN);
       		}
     	}
-    	// shuffle
-        this.shuffle_quiz();
+    	// shuffle whole thing now
+        this.remaining = this.do_shuffle(this.remaining);
 
         // only use 10 per quiz
         this.remaining = this.remaining.slice(0,10) 
     	this.total=this.remaining.length;
+        // DEBUGGING - display distribution
+        for(var ii=0; ii<this.remaining.length; ii++)
+        {
+            //console.log(this.remaining[ii].scenario);
+        }
 
         // get starting question
         this.pop_question();
 
     },
 
-    shuffle_quiz:function()
+    do_shuffle:function(list)
     {
         // scrambles array elements
-        this.remaining.sort(function() {return 0.5 - Math.random()}) 
+        return list.sort(function() {return 0.5 - Math.random()}) 
 	},
 
     get_question: function()
