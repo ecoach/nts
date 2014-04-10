@@ -61,7 +61,8 @@ function begin()
     question_view.present_question();
 
     // log entry (choices)
-    json = "{'selections':['"+selections.join("','")+"']}"
+    json = {};
+    json.selections = selections
     var elog = {
         'eventCategory': 'nts',
         'eventAction': 'load',
@@ -88,7 +89,11 @@ function submit_answer()
     // log entry for answer
     question = nts_model.get_question();
     correct = question.resp_correct();
-    json = "{'correct': '"+correct+"', 'answer':'"+question.scenario+"', 'choice':'"+resp+"', 'question': '"+nts_model.current_question.question+"'}";
+    json = {};
+    json.correct = correct;
+    json.answer = question.scenario;
+    json.choice = resp;
+    json.question = nts_model.current_question.question;
     var elog = {
         'eventCategory': 'nts',
         'eventAction': 'answer',
